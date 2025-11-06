@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apprendre Python - Quiz Progressif (200 questions)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #282c34, #3b3f47);
+      color: #fff;
+      margin: 0; padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+    h1 {
+      text-align: center;
+      color: #61dafb;
+      margin-bottom: 20px;
+    }
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+    .options {
+      list-style: none;
+      padding: 0;
+    }
+    .options li {
+      margin-bottom: 15px;
+    }
+    label {
+      cursor: pointer;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    button {
+      background-color: #61dafb;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .feedback {
+      margin-top: 15px;
+      font-weight: bold;
+      min-height: 24px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Apprendre Python - Quiz Progressif (200 questions) ✨</h1>
+    <div id="quiz-container"></div>
+  </div>
+
+<script>
+const quizData = [
+  { question: "Niveau 1 : Quelle est la bonne façon de déclarer une variable en Python ?", options: ["var x = 5", "x = 5", "int x = 5", "declare x = 5"], answer: 1 },
+  { question: "Niveau 2 : Que fait cette ligne de code ?\nprint(3 + 4 * 2)", options: ["14", "11", "10", "Erreur"], answer: 1 },
+  { question: "Niveau 3 : Que retourne cette condition ?\nif 10 > 5:\n    print('Oui')\nelse:\n    print('Non')", options: ["'Non'", "'Oui'", "Erreur de syntaxe", "Rien"], answer: 1 },
+  { question: "Niveau 4 : Quel est le résultat de cette boucle ?\nfor i in range(3):\n    print(i)", options: ["0 1 2", "1 2 3", "3 2 1", "Erreur"], answer: 0 },
+  { question: "Niveau 5 : Comment définir une fonction en Python ?", options: ["function greet():", "def greet():", "fun greet()", "define greet():"], answer: 1 },
+  { question: "Niveau 6 : Comment ajouter un élément à une liste appelée fruits ?", options: ["fruits.add('pomme')", "fruits.append('pomme')", "fruits.insert('pomme')", "fruits.push('pomme')"], answer: 1 },
+  { question: "Niveau 7 : Que fait cette ligne ?\nprint(len('Python'))", options: ["6", "5", "Erreur", "7"], answer: 0 },
+  { question: "Niveau 8 : Quelle syntaxe est correcte pour un dictionnaire en Python ?", options: ["d = {'nom': 'Ali', 'âge': 25}", "d = ['nom' => 'Ali', 'âge' => 25]", "d = (nom: 'Ali', âge: 25)", "d = {'nom' => 'Ali', 'âge' => 25}"], answer: 0 },
+  { question: "Niveau 9 : Que fait la fonction range(5) ?", options: ["Crée une liste [0,1,2,3,4]", "Crée une liste [1,2,3,4,5]", "Crée une liste [0,1,2,3,4,5]", "Erreur"], answer: 0 },
+  { question: "Niveau 10 : Comment gérer une exception en Python ?", options: ["try: ... except: ...", "catch ...", "error ...", "handle ..."], answer: 0 },
+  { question: "Niveau 11 : Quelle est la sortie de ce code ?\nprint(''.join(['P', 'y', 't', 'h', 'o', 'n']))", options: ["Python", "P y t h o n", "['P', 'y', 't', 'h', 'o', 'n']", "Erreur"], answer: 0 },
+  { question: "Niveau 12 : Que fait le mot-clé 'pass' en Python ?", options: ["Ignore un bloc de code", "Arrête la boucle", "Déclare une variable", "Crée une fonction"], answer: 0 },
+  { question: "Niveau 13 : Quel est le résultat de :\nprint(type(3.14))", options: ["<class 'float'>", "<class 'int'>", "<class 'str'>", "<class 'double'>"], answer: 0 },
+  { question: "Niveau 14 : Comment déclarer une classe en Python ?", options: ["class MonObjet:", "def MonObjet:", "object MonObjet:", "new MonObjet()"], answer: 0 },
+  { question: "Niveau 15 : Quel mot-clé utilise-t-on pour hériter d'une classe ?", options: ["inherits", "extends", "super", "class MonClasse(Base):"], answer: 3 },
+  { question: "Niveau 16 : Que fait cette expression ?\n[ x*x for x in range(5) ]", options: ["[0,1,4,9,16]", "[1,4,9,16,25]", "Erreur", "[0,1,2,3,4]"], answer: 0 },
+  { question: "Niveau 17 : Comment ouvrir un fichier en lecture ?", options: ["open('fichier.txt', 'r')", "open('fichier.txt', 'w')", "open('fichier.txt', 'a')", "read('fichier.txt')"], answer: 0 },
+  { question: "Niveau 18 : Quel module standard sert à générer des nombres aléatoires ?", options: ["random", "math", "sys", "os"], answer: 0 },
+  { question: "Niveau 19 : Que signifie '__init__' dans une classe Python ?", options: ["Constructeur", "Méthode privée", "Attribut statique", "Méthode magique pour addition"], answer: 0 },
+  { question: "Niveau 20 : Quelle est la syntaxe correcte pour un décorateur en Python ?", options: ["@decorateur", "#decorateur", "$decorateur", "%decorateur"], answer: 0 },
+  { question: "Niveau 21 : Quelle est la différence entre une liste et un tuple en Python ?", options: ["Les listes sont immuables", "Les tuples sont immuables", "Les listes sont plus rapides", "Aucune différence"], answer: 1 },
+  { question: "Niveau 22 : Quel est le résultat de :\nprint(bool(''))", options: ["True", "False", "Erreur", "None"], answer: 1 },
+  { question: "Niveau 23 : Que fait la méthode 'strip()' sur une chaîne ?", options: ["Supprime les espaces en début et fin", "Supprime tous les espaces", "Convertit en majuscules", "Remplace les caractères"], answer: 0 },
+  { question: "Niveau 24 : Quelle est la sortie ?\nprint(5 // 2)", options: ["2", "2.5", "3", "Erreur"], answer: 0 },
+  { question: "Niveau 25 : Comment concaténer deux chaînes str1 et str2 ?", options: ["str1 + str2", "str1.append(str2)", "concat(str1, str2)", "str1 & str2"], answer: 0 },
+  { question: "Niveau 26 : Que fait la fonction 'enumerate()' ?", options: ["Compte les éléments d'une liste", "Itère avec index et valeur", "Trie une liste", "Supprime les doublons"], answer: 1 },
+  { question: "Niveau 27 : Quelle est la sortie ?\nprint(list(range(2, 7)))", options: ["[2, 3, 4, 5, 6]", "[2, 3, 4, 5, 6, 7]", "[1, 2, 3, 4, 5, 6]", "Erreur"], answer: 0 },
+  { question: "Niveau 28 : Quel type de données représente True et False ?", options: ["int", "bool", "str", "float"], answer: 1 },
+  { question: "Niveau 29 : Quelle est la syntaxe correcte d'un commentaire sur une ligne ?", options: ["# commentaire", "// commentaire", "/* commentaire */", "-- commentaire"], answer: 0 },
+  { question: "Niveau 30 : Que fait 'import math' ?", options: ["Importe la bibliothèque mathématique", "Crée une variable math", "Exécute un calcul", "Rien"], answer: 0 },
+  { question: "Niveau 31 : Quel est le résultat ?\nprint(2 ** 3)", options: ["8", "6", "9", "Erreur"], answer: 0 },
+  { question: "Niveau 32 : Quelle fonction permet d'obtenir un nombre aléatoire entre 0 et 1 ?", options: ["random.random()", "math.rand()", "randint(0,1)", "random.randint()"], answer: 0 },
+  { question: "Niveau 33 : Que fait 'len()' quand elle est appliquée à une liste ?", options: ["Retourne le nombre d'éléments", "Retourne la taille mémoire", "Retourne la dernière valeur", "Erreur"], answer: 0 },
+  { question: "Niveau 34 : Quelle est la différence entre '==' et '=' ?", options: ["'==' compare, '=' assigne", "'==' assigne, '=' compare", "Les deux sont identiques", "Erreur"], answer: 0 },
+  { question: "Niveau 35 : Quelle est la syntaxe correcte pour une boucle while ?", options: ["while condition:", "while (condition)", "while condition {}", "while condition then"], answer: 0 },
+  { question: "Niveau 36 : Que fait 'break' dans une boucle ?", options: ["Interrompt la boucle", "Ignore une itération", "Continue la boucle", "Rien"], answer: 0 },
+  { question: "Niveau 37 : Que fait 'continue' dans une boucle ?", options: ["Passe à l'itération suivante", "Interrompt la boucle", "Sort de la fonction", "Rien"], answer: 0 },
+  { question: "Niveau 38 : Quel est le résultat de :\nprint(type([]))", options: ["<class 'list'>", "<class 'tuple'>", "<class 'dict'>", "<class 'set'>"], answer: 0 },
+  { question: "Niveau 39 : Comment écrire un commentaire multi-lignes ?", options: ["''' commentaire '''", "# commentaire", "// commentaire", "<!-- commentaire -->"], answer: 0 },
+  { question: "Niveau 40 : Que fait la méthode 'keys()' d'un dictionnaire ?", options: ["Retourne les clés", "Retourne les valeurs", "Retourne les items", "Supprime les clés"], answer: 0 },
+  { question: "Niveau 41 : Que fait la méthode 'values()' d'un dictionnaire ?", options: ["Retourne les valeurs", "Retourne les clés", "Retourne les items", "Supprime les valeurs"], answer: 0 },
+  { question: "Niveau 42 : Quel mot-clé crée une variable globale dans une fonction ?", options: ["global", "local", "nonlocal", "static"], answer: 0 },
+  { question: "Niveau 43 : Que fait la méthode 'append()' ?", options: ["Ajoute un élément à une liste", "Supprime un élément", "Trie une liste", "Copie une liste"], answer: 0 },
+  { question: "Niveau 44 : Quelle est la différence entre 'is' et '==' ?", options: ["'is' compare l'identité, '==' compare la valeur", "'is' compare la valeur, '==' l'identité", "Les deux sont identiques", "Erreur"], answer: 0 },
+  { question: "Niveau 45 : Quel est le type d'un set ?", options: ["set", "list", "dict", "tuple"], answer: 0 },
+  { question: "Niveau 46 : Que fait la méthode 'pop()' sur une liste ?", options: ["Supprime et retourne le dernier élément", "Ajoute un élément", "Trie la liste", "Copie la liste"], answer: 0 },
+  { question: "Niveau 47 : Que signifie 'lambda' ?", options: ["Fonction anonyme", "Boucle", "Classe", "Variable"], answer: 0 },
+  { question: "Niveau 48 : Quelle est la syntaxe correcte pour définir un générateur ?", options: ["def gen(): yield 1", "def gen(): return 1", "def gen(): yield", "def gen(): pass"], answer: 0 },
+  { question: "Niveau 49 : Que fait 'yield' ?", options: ["Retourne un générateur", "Retourne une liste", "Arrête la fonction", "Lance une exception"], answer: 0 },
+  { question: "Niveau 50 : Comment lit-on un fichier ligne par ligne ?", options: ["for line in open('file.txt'):", "readline('file.txt')", "open('file.txt').read()", "file.readLines()"], answer: 0 }
+];
+
+// Variables globales
+let currentLevel = 0;
+
+function loadQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+
+  if (currentLevel >= quizData.length) {
+    container.innerHTML = `<h2>🎉 Félicitations! Vous avez terminé tous les niveaux.</h2>`;
+    return;
+  }
+
+  const currentQuiz = quizData[currentLevel];
+
+  const questionElem = document.createElement('div');
+  questionElem.classList.add('question');
+  questionElem.textContent = currentQuiz.question;
+
+  const optionsElem = document.createElement('ul');
+  optionsElem.classList.add('options');
+
+  currentQuiz.options.forEach((option, index) => {
+    const li = document.createElement('li');
+    const label = document.createElement('label');
+    const input = document.createElement('input');
+
+    input.type = 'radio';
+    input.name = 'option';
+    input.value = index;
+    input.id = 'option' + index;
+
+    label.htmlFor = input.id;
+    label.textContent = option;
+
+    li.appendChild(input);
+    li.appendChild(label);
+    optionsElem.appendChild(li);
+  });
+
+  const btnCheck = document.createElement('button');
+  btnCheck.textContent = 'Vérifier';
+  btnCheck.onclick = checkAnswer;
+
+  const btnNext = document.createElement('button');
+  btnNext.textContent = 'Niveau suivant';
+  btnNext.classList.add('hidden');
+  btnNext.onclick = () => {
+    currentLevel++;
+    loadQuiz();
+  };
+
+  const feedback = document.createElement('div');
+  feedback.classList.add('feedback');
+
+  container.appendChild(questionElem);
+  container.appendChild(optionsElem);
+  container.appendChild(btnCheck);
+  container.appendChild(btnNext);
+  container.appendChild(feedback);
+}
+
+function checkAnswer() {
+  const options = document.getElementsByName('option');
+  let selected = -1;
+  for (let opt of options) {
+    if (opt.checked) {
+      selected = parseInt(opt.value);
+      break;
+    }
+  }
+
+  const feedback = document.querySelector('.feedback');
+  const btnCheck = document.querySelector('button:nth-of-type(1)');
+  const btnNext = document.querySelector('button:nth-of-type(2)');
+
+  if (selected === -1) {
+    feedback.textContent = "Veuillez sélectionner une réponse.";
+    feedback.style.color = 'yellow';
+    return;
+  }
+
+  if (selected === quizData[currentLevel].answer) {
+    feedback.textContent = "✅ Correct!";
+    feedback.style.color = 'limegreen';
+    btnCheck.disabled = true;
+    btnNext.classList.remove('hidden');
+  } else {
+    feedback.textContent = "❌ Incorrect, essayez encore.";
+    feedback.style.color = 'red';
+  }
+}
+
+// Chargement initial
+loadQuiz();
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ma page</title>
+</head>
+<body>
+  <h1>Bonjour, bienvenue !</h1>
+</body>
+</html>
